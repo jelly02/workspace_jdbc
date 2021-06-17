@@ -1,0 +1,17 @@
+package com.work.model;
+
+public class MemberService {
+	
+	
+/**
+ *  로그인 
+ * @param member_id 아이디
+ * @param member_pw 비밀번호
+ * @return 회원등급, 미존재시 null
+ */
+	public String login(String member_id, String member_pw) {
+				
+			
+			return null;
+	}
+}

@@ -1,0 +1,53 @@
+package com.work.view;
+
+import com.work.model.MemberService;
+
+public class Test {
+
+	public static void main(String[] args) {
+		
+		MemberService service = new MemberService();
+
+		print("로그인");
+		
+		String grade = service.login("", "");
+	}
+	
+	public static void print(String message) {
+		System.out.println("\n###"+message);
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

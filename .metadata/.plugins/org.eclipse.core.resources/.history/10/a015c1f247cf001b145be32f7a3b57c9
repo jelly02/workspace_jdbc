@@ -1,0 +1,84 @@
+package com.work.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MemberService {
+	
+	// (sevice > dao) : 서비스 안에서만 dao를 사용하기 때문에 private
+	/**
+	 * MemberDao 객체
+	 * 
+	 * DAO 생성자를 호출해서 호출함과 동시에 드라이버를 로딩
+	 */
+	private MemberDao dao = new MemberDao();
+	
+	
+/**
+ *  로그인 
+ * @param member_id 아이디
+ * @param member_pw 비밀번호
+ * @return 회원등급, 미존재시 null
+ */
+	public String login(String member_id, String member_pw) {
+				
+								//DB로 부터 가져오는 데이터
+			String grade = dao.login(member_id, member_pw);
+			
+			if (grade != null)
+			{
+				//dao에서 전달 받은 등급이 null이 아니면 해당 아이디를 가진 회원이 존재한다는 의미
+				// test class에다가 넘겨주자
+				return grade;
+			}
+			
+			//아이디가 존재하지 않거나, 비밀번호가 틀려서 로그인이 실패할 경우 
+			return null;
+	}
+	
+	/**
+	 * 회원 상세 조회
+	 * 
+	 * @param memberId
+	 * @return
+	 */
+	
+	
+	public Member getMember(String memberId) {
+		
+		//Member dto = dao.selectOne(memberId);
+		// return dto;
+		
+		//어차피 return type이 member라서 
+		return dao.selectOne(memberId);
+	}
+
+	/**
+	 *  회원 전체 조회
+	 * @return
+	 */
+	public  ArrayList<Member>  getAll() {
+		// TODO Auto-generated method stub
+		return dao.selectAll();
+	}
+	
+	/**
+	 *  등급별  회원 전체 조회
+	 * @return
+	 */
+	public  ArrayList<Member>  selectAllByGrade(String grade) {
+		// TODO Auto-generated method stub
+		return dao.selectAllByGrade(grade);
+	}
+	
+	/**
+	 *  이메일 중복 확인 
+	 */
+
+	public void idCheck(String ) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+}

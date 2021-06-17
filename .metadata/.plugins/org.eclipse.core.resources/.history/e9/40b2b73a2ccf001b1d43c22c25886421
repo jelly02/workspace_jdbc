@@ -1,0 +1,25 @@
+package com.work.model;
+
+public class MemberService {
+	
+	// (sevice > dao) : 서비스 안에서만 dao를 사용하기 때문에 private
+	/**
+	 * MemberDao 객체
+	 * 
+	 * DAO 생성자를 호출해서 호출함과 동시에 드라이버를 로딩
+	 */
+	private MemberDao dao = new MemberDao();
+	
+	
+/**
+ *  로그인 
+ * @param member_id 아이디
+ * @param member_pw 비밀번호
+ * @return 회원등급, 미존재시 null
+ */
+	public String login(String member_id, String member_pw) {
+				
+			
+			return null;
+	}
+}

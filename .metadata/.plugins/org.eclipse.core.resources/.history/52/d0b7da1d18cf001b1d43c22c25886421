@@ -1,0 +1,19 @@
+package com.work.model;
+
+import java.io.Serializable;
+
+public class Member implements Serializable {
+	
+	private String  member_id;
+	private String member_pw;
+	private String name;
+	private String mobile;
+	private String email;
+	private String entry_date ;
+	private String grade;
+	private String mileage;
+	private String manager;
+	
+	
+
+}

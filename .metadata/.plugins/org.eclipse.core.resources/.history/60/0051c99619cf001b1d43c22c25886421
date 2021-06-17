@@ -1,0 +1,8 @@
+package com.work.model;
+
+public class MemberService {
+
+	public void login(String member_id, String member_pw) {
+		
+	}
+}

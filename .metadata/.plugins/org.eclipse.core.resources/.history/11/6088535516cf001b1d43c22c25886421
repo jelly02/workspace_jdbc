@@ -1,0 +1,11 @@
+package com.work.model;
+
+public class Member {
+	
+	private String  member_id;
+	private String member_pw;
+	private String name;
+	private String mobile;
+	private String email;
+
+}
