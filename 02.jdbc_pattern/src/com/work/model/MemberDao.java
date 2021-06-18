@@ -1,6 +1,5 @@
 package com.work.model;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,30 +7,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MemberDao {
 	
-	//JDBC resource property
-	private String driver = "oracle.jdbc.driver.OracleDriver";
-	private String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	private String user = "scott";
-	private String password = "tiger";
+	//FactoryDao 객체 멤버 변수 선언 및 할당
+	private FactoryDao factory = FactoryDao.getInstance();
 	
-	/**
-	 *  1. 드라이버 로딩 
-	 */
-	public MemberDao() {
-		
-		try {
-			Class.forName(driver);
-			System.out.println("[성공] 드라이버 로딩 성공");
-		} catch (ClassNotFoundException e) {
-			System.out.println("[오류] 드라이버 로딩 오류");
-			e.printStackTrace();
-		}
+	//singleton Pattern 적용
+	private static MemberDao instance = new MemberDao();
+	
+	//생성자를 안 만들면 jvm이 public으로 자동 생성자를 만들어줘서 아무 곳에서 접근 가능하기 때문에 private로 설정해야함
+	 private MemberDao() {
 		
 	}
+	 
+	//singleton Pattern 적용 : instance 반환 메서드 
+		public static MemberDao getInstance() {
+			return instance;
+		}
 	
 	
 	
@@ -58,7 +51,8 @@ public class MemberDao {
 		try {
 			
 			// 2. DB 서버연결 
-			 conn = DriverManager.getConnection(url, user, password);
+//			 conn = DriverManager.getConnection(url, user, password);
+			conn = factory.getConnection();
 
 			// * 주의사항 : sql 구문 뒤에 ;(세미콜론)이 오면 안됨 member_pw =?; " 이렇게 
 			String sql = "select Grade from member where member_ID =? and member_pw =?";
@@ -85,43 +79,40 @@ public class MemberDao {
 				//로그인이 성공하면 등급 반환
 				return grade;
 			}
-			
-			//6. 자원해제
-			rs.close();
-			stmt.close();
-			conn.close();
+
 			
 		} catch (SQLException e) {
 			System.out.println("[오류] 로그인 실패");
 			e.printStackTrace();
 		}finally {
 			//6. 자원해제
-			try {
-				if(rs != null) {
-				rs.close();
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				stmt.close();
-				
-				if(stmt != null) {
-					stmt.close();
-					}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				if(conn != null) {
-					conn.close();
-					}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			factory.close(conn, stmt, rs);
+//			try {
+//				if(rs != null) {
+//				rs.close();
+//				}
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			try {
+//				stmt.close();
+//				
+//				if(stmt != null) {
+//					stmt.close();
+//					}
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			try {
+//				if(conn != null) {
+//					conn.close();
+//					}
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		}
 		//회원 아이디가 존재하지 않을 때
 		return null;
@@ -140,7 +131,7 @@ public class MemberDao {
 		ResultSet rs =  null;
 	
 		try{
-		 conn = DriverManager.getConnection(url, user, password);
+			conn = factory.getConnection();
 			
 			
 			String sql = "select * from member where member_id = ?";
@@ -174,32 +165,7 @@ public class MemberDao {
 			e.printStackTrace();
 		}finally {
 			//6. 자원해제
-			try {
-				if(rs != null) {
-				rs.close();
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				stmt.close();
-				
-				if(stmt != null) {
-					stmt.close();
-					}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				if(conn != null) {
-					conn.close();
-					}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			factory.close(conn, stmt, rs);
 		}
 		//회원 객체가 만들어지지 않았을 때 
 		return null;
@@ -218,7 +184,7 @@ public class MemberDao {
 		try {
 			
 			// 2. DB 서버연결 
-			 conn = DriverManager.getConnection(url, user, password);
+			conn = factory.getConnection();
 			
 			// 3. SQL 통로개설 : 동적 SQL 수행 
 			 stmt = conn.createStatement();
@@ -247,33 +213,7 @@ public class MemberDao {
 			System.out.println("[오류] 로그인 실패");
 			e.printStackTrace();
 		}finally {
-			//6. 자원해제
-			try {
-				if(rs != null) {
-				rs.close();
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				stmt.close();
-				
-				if(stmt != null) {
-					stmt.close();
-					}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				if(conn != null) {
-					conn.close();
-					}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			factory.close(conn, stmt, rs);
 		}
 		//회원 아이디가 존재하지 않을 때
 		return null;
@@ -295,7 +235,7 @@ public class MemberDao {
 		
 		try{
 
-			 conn = DriverManager.getConnection(url, user, password);
+			conn = factory.getConnection();
 			
 			
 			String sql = "select * from member ";
@@ -324,33 +264,7 @@ public class MemberDao {
 			System.out.println("[오류] 회원 전체 조회 실패");
 			e.printStackTrace();
 		}finally {
-			//6. 자원해제
-			try {
-				if(rs != null) {
-				rs.close();
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				stmt.close();
-				
-				if(stmt != null) {
-					stmt.close();
-					}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				if(conn != null) {
-					conn.close();
-					}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			factory.close(conn, stmt, rs);
 		}
 	
 		return members;
@@ -372,7 +286,7 @@ public class MemberDao {
 		
 		try{
 
-			 conn = DriverManager.getConnection(url, user, password);
+			conn = factory.getConnection();
 			
 			
 			String sql = "select * from member where grade=?";
@@ -406,32 +320,7 @@ public class MemberDao {
 			e.printStackTrace();
 		}finally {
 			//6. 자원해제
-			try {
-				if(rs != null) {
-				rs.close();
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				stmt.close();
-				
-				if(stmt != null) {
-					stmt.close();
-					}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				if(conn != null) {
-					conn.close();
-					}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			factory.close(conn, stmt, rs);
 		}
 	
 		return members;
@@ -452,8 +341,8 @@ public class MemberDao {
 		ResultSet rs =  null;
 			
 			try {
-			 conn = DriverManager.getConnection(url, user, password);
-
+				
+			conn = factory.getConnection();
 			String sql = "select email from member where email =? ";
 					
 			 stmt = conn.prepareStatement(sql);
@@ -475,33 +364,7 @@ public class MemberDao {
 			System.out.println("[오류] 중복 확인 실패");
 			e.printStackTrace();
 		}finally {
-			//6. 자원해제
-			try {
-				if(rs != null) {
-				rs.close();
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				stmt.close();
-				
-				if(stmt != null) {
-					stmt.close();
-					}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				if(conn != null) {
-					conn.close();
-					}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			factory.close(conn, stmt, rs);
 		}
 		//회원 이메일이 없으면 때 
 		return null;
@@ -523,8 +386,7 @@ public class MemberDao {
 		
 		try{
 
-			 conn = DriverManager.getConnection(url, user, password);
-			
+			conn = factory.getConnection();			
 			
 			String sql = "select member_pw from member where member_id = ? and name = ? and email = ?";
 			 stmt = conn.prepareStatement(sql);
@@ -544,33 +406,7 @@ public class MemberDao {
 			System.out.println("[오류] 비밀번호 찾기 조회 실패");
 			e.printStackTrace();
 		}finally {
-			//6. 자원해제
-			try {
-				if(rs != null) {
-				rs.close();
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				stmt.close();
-				
-				if(stmt != null) {
-					stmt.close();
-					}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				if(conn != null) {
-					conn.close();
-					}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			factory.close(conn, stmt, rs);
 		}
 	
 		return false;
@@ -594,8 +430,7 @@ public class MemberDao {
 		
 		try{
 
-			 conn = DriverManager.getConnection(url, user, password);
-			
+			conn = factory.getConnection();			
 			
 			String sql = "update member set member_pw = ? where member_id = ?";
 			 stmt = conn.prepareStatement(sql);
@@ -610,25 +445,7 @@ public class MemberDao {
 			e.printStackTrace();
 		}
 		finally {
-			//6. 자원해제
-			try {
-				stmt.close();
-				
-				if(stmt != null) {
-					stmt.close();
-					}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				if(conn != null) {
-					conn.close();
-					}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			factory.close(conn, stmt, null);
 		}
 	
 		return rows;

@@ -11,7 +11,10 @@ public class MemberService {
 	 * 
 	 * DAO 생성자를 호출해서 호출함과 동시에 드라이버를 로딩
 	 */
-	private MemberDao dao = new MemberDao();
+	
+	//singleton Pattern 적용  > The constructor MemberDao() is not visible (private 에 접근할 때)
+//	private MemberDao dao = new MemberDao();
+	private MemberDao dao = MemberDao.getInstance();
 	
 	
 /**
