@@ -10,7 +10,11 @@
     <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
     <fullyQualifiedTypeName name="com.work.model.Member"/>
     <fullyQualifiedTypeName name="java.util.List"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="java.util.Scanner"/>
     <fullyQualifiedTypeName name="ex.model.ReservationSeat"/>
+    <fullyQualifiedTypeName name="com.concert.dao.MemberDao"/>
+    <fullyQualifiedTypeName name="com.concert.model.Info"/>
+    <fullyQualifiedTypeName name="com.concert.model.Reservation"/>
+    <fullyQualifiedTypeName name="com.concert.model.ReservationList"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>
