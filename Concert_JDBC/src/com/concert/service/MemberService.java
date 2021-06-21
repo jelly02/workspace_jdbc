@@ -202,9 +202,9 @@ public class MemberService {
 		ArrayList<ReservationList> reservationList  = dao.rerservationSeat(editCode);
 		
 		//예약 배열 만들기
-		String[] vip_array = new String[reservationList.size()] ;
-		String[] r_array = new String[reservationList.size()] ;
-		String[] s_array = new String[reservationList.size()] ;
+		String[] vip_array = new String[9] ;
+		String[] r_array = new String[14] ;
+		String[] s_array = new String[2] ;
 		
 		//배열에 예약된 좌석 번호 저장
 		for(int i=0; i<reservationList.size();i++) {
@@ -218,34 +218,68 @@ public class MemberService {
 			}
 		}
 		
-		for(int i=0; i<vip_array.length;i++) {
-			System.out.println("배열에 저장되어 있던 좌석 번호 저장한 배열 vip_array"+vip_array[i]);
-		}
-		for(int i=0; i<r_array.length;i++) {
-			System.out.println("배열에 저장되어 있던 좌석 번호 저장한 배열 r_array"+r_array[i]);
-		}
-		for(int i=0; i<s_array.length;i++) {
-			System.out.println("배열에 저장되어 있던 좌석 번호 저장한 배열 s_array"+s_array[i]);
-		}
-		
-		System.out.print("VIP석 : ");
-
-		
-				for(int i=0; i<vipSeat.length; i++) {
-		            System.out.print("[ "+vipSeat[i] + " ]");
-		        }
-				System.out.println();
-			
-			System.out.print("S석 : ");
-				for(int i=0; i<sSeat.length; i++) {
-		            System.out.print("[ "+sSeat[i]+ " ]");
-		        }
-				System.out.println();
-			System.out.print("R석 : ");
-				for(int i=0; i<rSeat.length; i++) {
-		            System.out.print("[ "+rSeat[i]+ " ]");  
+		for(int i = 0; i < vip_array.length ; i++) {
+			for(int j = 0; j< vipSeat.length; j++) {
+				if(vip_array[i].equals(vipSeat[j])) {
+					vipSeat[j] = "X";
 				}
-				System.out.println();
+			}
+		}
+		
+		for(int i=0; i<vipSeat.length;i++) {
+			System.out.print("[ "+vipSeat[i]+ " ]");
+		}
+		
+//		for(int i=0; i<vipSeat.length;i++) {
+//			
+//			if(vip_array[i] == vipSeat[i]) {
+//				vipSeat[i] = "X";
+//				vip_array[i] = "X";
+//			}
+//			System.out.print("vipSeat : [ "+vipSeat[i]+ " ]");
+//			System.out.println();
+//			System.out.print("vip_array : [ "+vip_array[i]+ " ]");
+//		}
+		
+//		for(int i=0; i<vip_array.length;i++) {
+//			
+//			if(vip_array[i] != null) {
+//				if(vip_array[i] == vipSeat[i])
+//				{
+//					vipSeat[i] = "X";
+//		
+//				}
+//			}
+//		}
+//		
+//		for(int i=0; i<vipSeat.length;i++) {
+//			System.out.print("[ "+vipSeat[i]+ " ]");
+//		}
+//		for(int i=0; i<r_array.length;i++) {
+//			System.out.println("배열에 저장되어 있던 좌석 번호 저장한 배열 r_array"+r_array[i]);
+//		}
+//		for(int i=0; i<s_array.length;i++) {
+//			System.out.println("배열에 저장되어 있던 좌석 번호 저장한 배열 s_array"+s_array[i]);
+//		}
+//		
+//		System.out.print("VIP석 : ");
+//
+//		
+//				for(int i=0; i<vipSeat.length; i++) {
+//		            System.out.print("[ "+vipSeat[i] + " ]");
+//		        }
+//				System.out.println();
+//			
+//			System.out.print("S석 : ");
+//				for(int i=0; i<sSeat.length; i++) {
+//		            System.out.print("[ "+sSeat[i]+ " ]");
+//		        }
+//				System.out.println();
+//			System.out.print("R석 : ");
+//				for(int i=0; i<rSeat.length; i++) {
+//		            System.out.print("[ "+rSeat[i]+ " ]");  
+//				}
+//				System.out.println();
 	}
 	
 	/**
