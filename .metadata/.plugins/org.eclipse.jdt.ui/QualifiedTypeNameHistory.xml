@@ -17,4 +17,7 @@
     <fullyQualifiedTypeName name="com.concert.model.Reservation"/>
     <fullyQualifiedTypeName name="com.concert.model.ReservationList"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="java.util.Date"/>
+    <fullyQualifiedTypeName name="java.security.SecureRandom"/>
+    <fullyQualifiedTypeName name="java.util.concurrent.ThreadLocalRandom"/>
 </qualifiedTypeNameHistroy>

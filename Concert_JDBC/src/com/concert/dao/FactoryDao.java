@@ -29,9 +29,9 @@ public class FactoryDao {
 		
 		try {
 			Class.forName(driver);
-			System.out.println("[성공] 드라이버 로딩 성공");
+	//		System.out.println("[성공] 드라이버 로딩 성공");
 		} catch (ClassNotFoundException e) {
-			System.out.println("[오류] 드라이버 로딩 오류");
+	//		System.out.println("[오류] 드라이버 로딩 오류");
 			e.printStackTrace();
 		}
 		

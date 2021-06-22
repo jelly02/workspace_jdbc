@@ -78,7 +78,6 @@ public class MainMenu {
 				
 		boolean result = service.login(memberId, memberPw);
 		
-		System.out.println(result);
 		
 		if(result) {
 			memberMenu(memberId);
@@ -201,56 +200,77 @@ public class MainMenu {
 			boolean loop = true;
 			
 			if(menuNo != 0) {
-				boolean seatCheck = true;
 				
+				//공연 번호 체크
+				boolean result2 = service.reservation(menuNo);
+				
+				if(result2 == false) {
+					infoReservation(memberId);
+				}
+			
 					while(loop) {
 					// 공연 좌석 선택
 					printLine();
 					printSpace("\t< 2. 공연 좌석 선택>");
+					System.out.println(" *안내* 'X' 표시 되어 있는 좌석은 예약된 좌석으로, 예매가 불가합니다");
 					System.out.println();
-								
-					//공연 좌석 출력 
-					boolean result2 = service.reservation(menuNo);
-					
-					if(result2 == false) {
-						infoReservation(memberId);
-					}
 								
 					System.out.println();
 					System.out.println("* 원하는 좌석 타입을 선택 해주세요.*");
-					System.out.println();
 					System.out.println("1 : VIP석, 2: S석, 3 : R석");
-					System.out.println();
-					
-								
+
+					//좌석 타입 입력 			
 					int type = inputNumber();
 					
-					//원하는 좌석 출력함
-					seatCheck = service.userSeatChoice(type);
+					switch(type) {
 					
-					if(seatCheck == true) {
-							// 사용자로부터 원하는 좌석 번호 입력 받게 함
-							System.out.println("* 원하는 좌석 번호를 입력해주세요. *");
-							int seatChoice = inputNumber();
-							
-							//좌석 예약
-							boolean result = service.userSeatChoice(menuNo, type, seatChoice, memberId);
+					case 1 : 
 						
-							if(result) {
-								System.out.println();
-								
-								loop = false;
-								memberMenu(memberId);
-								break;
-							}else {
-								System.out.println("[오류] 화면에 표시된 좌석 숫자를 입력해주세요.");
-								System.out.println();
-								continue;
-							}
+						System.out.println("* 원하는 좌석 번호를 입력해주세요. *");
+						int seatChoice = inputNumber();
+					//VIP석 
+						boolean result_vip = service.userSeatChoice(menuNo, type, seatChoice, memberId);
 						
-					}else {
-							//좌석 번호 틀렸을 때 
+						if(result_vip) {
+							System.out.println("[안내] "+memberId+"님의 예약이 완료되었습니다. 좋은 관람 되세요!");
+							memberMenu(memberId);
+						}else {
 							continue;
+						}
+						
+					case 2 : 
+						
+						System.out.println("* 원하는 좌석 번호를 입력해주세요. *");
+						int seatChoice2 = inputNumber();
+						
+					//S석	
+						boolean result_s = service.userSeatChoice(menuNo, type, seatChoice2, memberId);
+						
+						if(result_s) {
+							System.out.println("[안내] "+memberId+"님의 예약이 완료되었습니다. 좋은 관람 되세요!");
+							memberMenu(memberId);
+						}else {
+							continue;
+						}
+						
+					case 3 :
+						
+						System.out.println("* 원하는 좌석 번호를 입력해주세요. *");
+						int seatChoice3 = inputNumber();
+						
+						boolean result_r = service.userSeatChoice(menuNo, type, seatChoice3, memberId);
+						
+						if(result_r) {
+							System.out.println("[안내] "+memberId+"님의 예약이 완료되었습니다. 좋은 관람 되세요!");
+							memberMenu(memberId);
+						}else {
+							continue;
+						}
+						
+					default : 
+						//좌석 타입에서 1~3 사이의 숫자 입력 안했을 경우
+		                System.out.println("[오류] 잘못 입력하였습니다. 다시 입력해주세요.");
+		                continue;
 						}
 					}
 				}
@@ -258,6 +278,7 @@ public class MainMenu {
 		case 2 : 
 			printLine();
 			printSpace("\t< 예약 내역 조회 >");
+			System.out.println("* 취소하기 : '1' 입력*");
 			System.out.println("* 뒤로가기 : '0' 입력*");
 			
 			System.out.println();
@@ -266,12 +287,31 @@ public class MainMenu {
 			
 			menuNo = inputNumber();
 			
-			if(menuNo == 0) {
-				infoReservation(memberId);
-			}else {
-				System.out.println("[오류] 잘못된 숫자를 입력하셨습니다. 회원 화면으로 돌아갑니다.");
+			switch(menuNo) {
+			
+			case 0 : infoReservation(memberId);
+			
+			case 1 : 
+				printLine();
+				printSpace("\t< 예약 내역 조회 >");
+				System.out.println("* 취소할 공연의 번호를 입력 해주세요. *");
+				
+//				service.getReservationList(memberId);
+				
+				int delete = inputNumber();
+				
+				boolean result  = service.deleteReservation();
+				
+			
+			
+			default : 
+				System.out.println("[오류] 잘못된 숫자를 입력하셨습니다.");
 				memberMenu(memberId);
+				break;
+			
 			}
+			
+			
 			
 		case 0 : 
 			memberMenu(memberId);

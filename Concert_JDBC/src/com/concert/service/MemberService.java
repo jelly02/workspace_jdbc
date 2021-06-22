@@ -172,6 +172,7 @@ public class MemberService {
 		}else {
 			//사용자가 딴 값을 입력하면 
 			System.out.println("[오류] 해당 번호의 공연은 존재하지 않습니다. 화면에 나와있는 공연 숫자를 적어주세요");
+			
 		}
 	
 		return false;
@@ -202,13 +203,12 @@ public class MemberService {
 		ArrayList<ReservationList> reservationList  = dao.rerservationSeat(editCode);
 		
 		//예약 배열 만들기
-		String[] vip_array = new String[9] ;
-		String[] r_array = new String[14] ;
-		String[] s_array = new String[2] ;
+		String[] vip_array = new String[vipSeat.length] ;
+		String[] r_array = new String[rSeat.length] ;
+		String[] s_array = new String[sSeat.length] ;
 		
 		//배열에 예약된 좌석 번호 저장
 		for(int i=0; i<reservationList.size();i++) {
-			
 			if(reservationList.get(i).getSeat().equals("v")){
 				vip_array[i] = Integer.toString(reservationList.get(i).getSeatNum());
 			}else if(reservationList.get(i).getSeat().equals("s")){
@@ -217,106 +217,75 @@ public class MemberService {
 				r_array[i] = Integer.toString(reservationList.get(i).getSeatNum());
 			}
 		}
-		
-		for(int i = 0; i < vip_array.length ; i++) {
-			for(int j = 0; j< vipSeat.length; j++) {
-				if(vip_array[i].equals(vipSeat[j])) {
+
+		for(int i=0; i<10; i++) {
+			for(int j = 0; j < vipSeat.length ; j++) {
+				if(vip_array[i] != null  && vip_array[i].equals(vipSeat[j]))
+				{
 					vipSeat[j] = "X";
 				}
-			}
+			}	
+		}
+
+		for(int i=0; i<10; i++) {
+			for(int j = 0; j < sSeat.length ; j++) {
+				if(s_array[i] != null  && s_array[i].equals(sSeat[j]))
+				{
+					sSeat[j] = "X";
+				}
+			}	
 		}
 		
+		for(int i=0; i<15; i++) {
+			for(int j = 0; j < rSeat.length ; j++) {
+				if(r_array[i] != null  && r_array[i].equals(rSeat[j]))
+				{
+					rSeat[j] = "X";
+				}
+			}	
+		}
+
+		
+//		for(int i = 0; i < s_array.length ; i++) {
+//				
+//				if(s_array[i] != null) {
+//					if(s_array[i]== sSeat[i]) {
+//						sSeat[i] = "X";
+//					}
+//				}
+//			}
+//		
+//		for(int i = 0; i < r_array.length ; i++) {
+//			
+//			if(r_array[i] != null) {
+//				if(r_array[i] == rSeat[i]) {
+//					rSeat[i] = "X";
+//				}
+//			}
+//		}
+		
+//		
+		System.out.print("VIP석 : ");
 		for(int i=0; i<vipSeat.length;i++) {
 			System.out.print("[ "+vipSeat[i]+ " ]");
 		}
+		System.out.println();
 		
-//		for(int i=0; i<vipSeat.length;i++) {
-//			
-//			if(vip_array[i] == vipSeat[i]) {
-//				vipSeat[i] = "X";
-//				vip_array[i] = "X";
-//			}
-//			System.out.print("vipSeat : [ "+vipSeat[i]+ " ]");
-//			System.out.println();
-//			System.out.print("vip_array : [ "+vip_array[i]+ " ]");
-//		}
+		System.out.print("S석 : ");
+		for(int i=0; i<sSeat.length; i++) {
+            System.out.print("[ "+sSeat[i]+ " ]");
+        }
 		
-//		for(int i=0; i<vip_array.length;i++) {
-//			
-//			if(vip_array[i] != null) {
-//				if(vip_array[i] == vipSeat[i])
-//				{
-//					vipSeat[i] = "X";
-//		
-//				}
-//			}
-//		}
-//		
-//		for(int i=0; i<vipSeat.length;i++) {
-//			System.out.print("[ "+vipSeat[i]+ " ]");
-//		}
-//		for(int i=0; i<r_array.length;i++) {
-//			System.out.println("배열에 저장되어 있던 좌석 번호 저장한 배열 r_array"+r_array[i]);
-//		}
-//		for(int i=0; i<s_array.length;i++) {
-//			System.out.println("배열에 저장되어 있던 좌석 번호 저장한 배열 s_array"+s_array[i]);
-//		}
-//		
-//		System.out.print("VIP석 : ");
-//
-//		
-//				for(int i=0; i<vipSeat.length; i++) {
-//		            System.out.print("[ "+vipSeat[i] + " ]");
-//		        }
-//				System.out.println();
-//			
-//			System.out.print("S석 : ");
-//				for(int i=0; i<sSeat.length; i++) {
-//		            System.out.print("[ "+sSeat[i]+ " ]");
-//		        }
-//				System.out.println();
-//			System.out.print("R석 : ");
-//				for(int i=0; i<rSeat.length; i++) {
-//		            System.out.print("[ "+rSeat[i]+ " ]");  
-//				}
-//				System.out.println();
+		System.out.println();
+		
+		System.out.print("R석 : ");
+		for(int i=0; i<rSeat.length; i++) {
+            System.out.print("[ "+rSeat[i]+ " ]");  
+		}
+		System.out.println();
+
 	}
 	
-	/**
-	 *  사용자가 원하는 좌석만 보여주는 메서드 
-	 */
-	
-	public boolean userSeatChoice(int type) {
-		
-		switch(type) {
-		
-			case 1 : System.out.print("VIP석 : ");
-				for(int i=0; i<vipSeat.length; i++) {
-		            System.out.print("[ "+ vipSeat[i] + " ]");
-		        }
-				System.out.println();
-				return true;
-			
-			case 2 : System.out.print("S석 : ");
-				for(int i=0; i<sSeat.length; i++) {
-		            System.out.print("[ "+sSeat[i] + " ]");
-		        }
-				System.out.println();
-				return true;
-				
-			case 3 :System.out.print("R석 : ");
-				for(int i=0; i<rSeat.length; i++) {
-		            System.out.print("[ "+rSeat[i]+ " ]");  
-				}
-				System.out.println();
-				return true;
-			
-			default : 
-				//1~3 사이의 숫자 입력 안했을 경우
-                System.out.println("[오류] 잘못 입력하였습니다. 다시 입력해주세요.");
-                return false;
-		}
-}
 	
 	/**
 	 *  좌석 예약
@@ -327,52 +296,51 @@ public class MemberService {
 		String modifyCode = "play"+ playCode;
 		String seat = "";
 		
-
-		if(type == 1) {
-			seat = "VIP석";
-		}else if(type == 2 ) {
-			seat = "S석";
-		}else {
-			seat = "R석";
-		}
-			try {
-			switch(type) {
+		//예약 공연 조회 
+		//예약 내역 가져오기
+		ArrayList<ReservationList> reservationList  = dao.rerservationSeat(modifyCode);
 			
-				case 1 :
-						
-						vipSeat[seatChoice-1] = "X";
-						reservation.add(new Reservation(memberId, modifyCode, seat, seatChoice));
-						System.out.println("[안내] 좌석 예약을 완료했습니다. 즐거운 관람 되시길 바랍니다!");
-						System.out.println();
-						//getReservationList();
-						return true;
-						
-				case 2 : 
-					
-						sSeat[seatChoice-1] = "X";
-						reservation.add(new Reservation(memberId, modifyCode, seat, seatChoice));
-						System.out.println("[안내] 좌석 예약을 완료했습니다. 즐거운 관람 되시길 바랍니다!");
-						System.out.println();
-//						getReservationList();
-						return true;
-					
-				case 3 :
-						rSeat[seatChoice-1] = "X";
-						reservation.add(new Reservation(memberId, modifyCode, seat, seatChoice));
-						System.out.println("[안내] 좌석 예약을 완료했습니다. 즐거운 관람 되시길 바랍니다!");
-						System.out.println();
-
-//						getReservationList();
-						return true;
+		if(type == 1) {
+			seat = "v";
+		}else if(type == 2 ) {
+			seat = "s";
+		}else {
+			seat = "r";
+		}
+			
+		
+		//배열에 예약된 좌석 번호 저장
+		for(int i = 0; i<reservationList.size(); i++) {
+			
+			System.out.println();
+			
+			//vip시트 조회 
+			if(reservationList.get(i).getSeat().equals("v")) {
+				if(reservationList.get(i).getSeatNum() == seatChoice) {
+					System.out.println("[오류] 선택하신 좌석은 이미 예약이 완료 된 좌석입니다.");
+					return false;
+				}
 			}
-		}catch (Exception e) {
-			System.out.println("[오류] 정확한 좌석 번호를 다시 입력해주세요.");
+			
+			if(reservationList.get(i).getSeat().equals("s")) {
+				if(reservationList.get(i).getSeatNum() == seatChoice) {
+					System.out.println("[오류] 선택하신 좌석은 이미 예약이 완료 된 좌석입니다.");
+					return false;
+				}
+			}
+			
+			if(reservationList.get(i).getSeat().equals("r")) {
+				if(reservationList.get(i).getSeatNum() == seatChoice) {
+					System.out.println("[오류] 선택하신 좌석은 이미 예약이 완료 된 좌석입니다.");
+					return false;
+				}
+			}
 		}
 		
+		boolean result = dao.insertReservation(modifyCode,seat,seatChoice, memberId );
 		
-		
-		
-		return false;
+
+		return result;
 		
 	}
 	
@@ -408,6 +376,17 @@ public class MemberService {
 			
 			return null;
 	}
+
+
+		/**
+		 * 예매취소
+		 * @return
+		 */
+
+		public boolean deleteReservation() {
+			// TODO Auto-generated method stub
+			return false;
+		}
 	
 
 	

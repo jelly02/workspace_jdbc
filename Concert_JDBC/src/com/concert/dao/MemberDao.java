@@ -339,6 +339,94 @@ public class MemberDao {
 			//예약 정보 불러오기 실패시 
 			return list;
 		}
+
+		/**
+		 * 예약하기
+		 * 	
+		 * @param modifyCode
+		 * @param type
+		 * @param seatChoice
+		 * @param memberId
+		 * @return
+		 */
+		public boolean resevaion(String modifyCode, String seat, int seatChoice, String memberId) {
+			Connection conn = null;
+			PreparedStatement stmt = null;
+			
+			try {
+				conn = factory.getConnection();
+				String sql = "INSERT INTO reservation VALUES (?,?,?,?)";
+				
+				// 3. SQL 통로개설 : 동적 SQL 수행 
+				 stmt = conn.prepareStatement(sql);
+				
+				// ? 에 매핑되는 값을 설정 
+				stmt.setString(1, memberId);
+				stmt.setString(2, modifyCode);
+				stmt.setString(3, seat);
+				stmt.setInt(4, seatChoice);
+
+				
+				int result  = stmt.executeUpdate();				 
+				if(result>0) {
+					// 예약 성공
+					return true;
+				}
+				
+				}catch(SQLException e) {
+					System.out.println("[안내] 예약이 정상적으로 처리되지 않았습니다.");
+					e.printStackTrace();
+				}finally {
+					//6. 자원해제
+					factory.close(conn, stmt);
+				}
+				
+				return false;
+		}
+
+		/**
+		 * 예약하기
+		 * 
+		 * @param modifyCode
+		 * @param type
+		 * @param seatChoice
+		 * @param memberId
+		 * @return
+		 */
+		public boolean insertReservation(String modifyCode, String seat, int seatChoice, String memberId) {
+		
+			Connection conn = null;
+			PreparedStatement stmt = null;
+			
+			
+			try {
+				conn = factory.getConnection();
+				String sql = "INSERT INTO reservation VALUES (?,?,?,?)";
+				
+				// 3. SQL 통로개설 : 동적 SQL 수행 
+				 stmt = conn.prepareStatement(sql);
+				
+				// ? 에 매핑되는 값을 설정 
+				stmt.setString(1, memberId);
+				stmt.setString(2, modifyCode);
+				stmt.setString(3, seat);
+				stmt.setInt(4, seatChoice);
+				
+				int result  = stmt.executeUpdate();				 
+				if(result>0) {
+					//예약 성공
+					return true;
+				}
+				
+				}catch(SQLException e) {
+					System.out.println("[안내] 예약 실패 : 적은 내용을 확인해주세요");
+					e.printStackTrace();
+				}finally {
+					//6. 자원해제
+					factory.close(conn, stmt);
+				}			
+				return false;
+		}
 		
 	
 
